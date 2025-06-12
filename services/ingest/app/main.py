@@ -7,6 +7,8 @@ logging.basicConfig(level=logging.INFO)
 
 app = FastAPI()
 
+
+
 class Alert(BaseModel):
     id: str
     description: str
