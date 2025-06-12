@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  ingest:
+    build: ./services/ingest
+    volumes:
+      - ./services/ingest:/app
+  graph:
+    build: ./services/graph
+    volumes:
+      - ./services/graph:/app
+
