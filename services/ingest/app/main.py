@@ -8,12 +8,10 @@ logging.basicConfig(level=logging.INFO)
 app = FastAPI()
 
 
-
 class Alert(BaseModel):
     id: str
     description: str
     severity: int
-
 
 def publish_alert(alert: Alert):
     """Stub for publishing alerts to a message bus."""
