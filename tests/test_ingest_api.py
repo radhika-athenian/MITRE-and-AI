@@ -8,3 +8,4 @@ def test_receive_alert():
     response = client.post("/alerts", json=payload)
     assert response.status_code == 200
     assert response.json() == {"status": "received"}
+
