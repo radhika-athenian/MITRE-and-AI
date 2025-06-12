@@ -1,9 +1,20 @@
 name: CI
 on: [push, pull_request]
+
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Test
-        run: echo "Run tests here"
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r services/ingest/requirements.txt
+          pip install pytest flake8
+      - name: Lint
+        run: flake8 services tests
+      - name: Pytest
+        run: pytest -q
