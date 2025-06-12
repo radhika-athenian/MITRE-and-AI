@@ -4,7 +4,8 @@ This project provides a scaffolding for multiple services that work together via
 
 ## Project Overview
 
-- **services/** – Individual microservices such as `ingest` and `graph`.
+ - **services/** – Individual microservices such as `ingest`.
+   A `graph` directory is included only as a placeholder.
 - **libs/** – Shared libraries used across services.
 - **docker-compose.yml** – Orchestrates services during development.
 - **Makefile** – Convenience commands for building and running containers.
@@ -20,9 +21,11 @@ This project provides a scaffolding for multiple services that work together via
    source venv/bin/activate
    pip install -r services/ingest/requirements.txt
    ```
-4. Build the service images with `make build`.
-5. Start the stack with `make up` and stop it with `make down`.
-6. Run tests with `make test` and lint with `make lint`.
+4. The `graph` service is only a placeholder. Add your own Dockerfile in
+   `services/graph` or comment out the service in `docker-compose.yml`.
+5. Build the service images with `make build`.
+6. Start the stack with `make up` and stop it with `make down`.
+7. Run tests with `make test` and lint with `make lint`.
 
 ## Branching Strategy
 
