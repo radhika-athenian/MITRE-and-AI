@@ -13,6 +13,7 @@ class Alert(BaseModel):
     description: str
     severity: int
 
+
 def publish_alert(alert: Alert):
     """Stub for publishing alerts to a message bus."""
     try:
