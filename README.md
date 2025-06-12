@@ -15,8 +15,14 @@ This project provides a scaffolding for multiple services that work together via
 1. Ensure you have Docker and Docker Compose installed.
 2. Clone the repository and run `make build` to build the service images.
 3. Start the stack with `make up`.
-4. Stop services with `make down`.
-5. Run tests locally with `make test` and lint with `make lint`.
+  4. Stop services with `make down`.
+  5. Run tests locally with `make test` and lint with `make lint`.
+
+## Branching Strategy
+
+Development happens on short-lived feature branches created from the
+`main` branch. The `main` branch always contains stable code and is
+where pull requests should target when merging new features or fixes.
 
 ## Development Workflow
 
