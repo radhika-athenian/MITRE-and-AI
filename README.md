@@ -24,3 +24,8 @@ This project provides a scaffolding for multiple services that work together via
 - Use the Makefile targets to build and run services locally.
 - Continuous integration is handled via GitHub Actions in `.github/workflows/ci.yml`.
 
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
