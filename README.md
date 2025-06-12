@@ -12,11 +12,17 @@ This project provides a scaffolding for multiple services that work together via
 
 ## Setup Instructions
 
-1. Ensure you have Docker and Docker Compose installed.
-2. Clone the repository and run `make build` to build the service images.
-3. Start the stack with `make up`.
-  4. Stop services with `make down`.
-  5. Run tests locally with `make test` and lint with `make lint`.
+1. Ensure you have Python 3.11, Docker, and Docker Compose installed.
+2. Clone the repository.
+3. Create and activate a virtual environment:
+   ```
+   python -m venv venv
+   source venv/bin/activate
+   pip install -r services/ingest/requirements.txt
+   ```
+4. Build the service images with `make build`.
+5. Start the stack with `make up` and stop it with `make down`.
+6. Run tests with `make test` and lint with `make lint`.
 
 ## Branching Strategy
 
