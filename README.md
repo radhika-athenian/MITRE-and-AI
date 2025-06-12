@@ -8,6 +8,7 @@ This project provides a scaffolding for multiple services that work together via
 - **libs/** – Shared libraries used across services.
 - **docker-compose.yml** – Orchestrates services during development.
 - **Makefile** – Convenience commands for building and running containers.
+  It now includes targets for running unit tests and linting.
 
 ## Setup Instructions
 
@@ -15,6 +16,7 @@ This project provides a scaffolding for multiple services that work together via
 2. Clone the repository and run `make build` to build the service images.
 3. Start the stack with `make up`.
 4. Stop services with `make down`.
+5. Run tests locally with `make test` and lint with `make lint`.
 
 ## Development Workflow
 
