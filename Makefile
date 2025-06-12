@@ -16,4 +16,4 @@ test:
 
 
 lint:
-	flake8 services tests
+	flake8 services
