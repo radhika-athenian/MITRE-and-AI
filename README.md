@@ -18,7 +18,8 @@ This project provides a scaffolding for multiple services that work together via
    ```
    python -m venv venv
    source venv/bin/activate
-   pip install -r services/ingest/requirements.txt
+   pip install -r requirements.txt
+   pip install -r services/ingest/requirements.txt  # service-specific
    ```
 4. Build the service images with `make build`.
 5. Start the stack with `make up` and stop it with `make down`.
