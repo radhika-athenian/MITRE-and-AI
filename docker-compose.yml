@@ -1,11 +1,38 @@
 version: '3.8'
-# services:
-#   ingest:
-#     build: ./services/ingest
-#     volumes:
-#       - ./services/ingest:/app
-#   graph:
-#     build: ./services/graph
-#     volumes:
-#       - ./services/graph:/app
+services:
+  ingest:
+    build:
+      context: .
+      dockerfile: services/ingest/Dockerfile
+    volumes:
+      - ./services/ingest:/app
+      - ./libs:/libs
+    environment:
+      - INGEST_PORT=8000
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-dummy}
+    ports:
+      - "8000:8000"
+  graph:
+    build:
+      context: .
+      dockerfile: services/graph/Dockerfile
+    volumes:
+      - ./services/graph:/app
+      - ./libs:/libs
+    environment:
+      - GRAPH_PORT=8001
+      - ATTACK_JSON_PATH=${ATTACK_JSON_PATH:-}
+    ports:
+      - "8001:8001"
 
+  analysis:
+    build:
+      context: .
+      dockerfile: services/analysis/Dockerfile
+    volumes:
+      - ./services/analysis:/app
+      - ./libs:/libs
+    environment:
+      - ANALYSIS_PORT=8002
+    ports:
+      - "8002:8002"
