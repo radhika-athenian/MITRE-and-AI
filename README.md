@@ -5,7 +5,7 @@ This project provides a scaffolding for multiple services that work together via
 ## Project Overview
 
  - **services/** – Individual microservices such as `ingest`.
-   A `graph` directory is included only as a placeholder.
+   Additional agents will be added over time.
 - **libs/** – Shared libraries used across services.
 - **docker-compose.yml** – Orchestrates services during development.
 - **Makefile** – Convenience commands for building and running containers.
@@ -39,6 +39,12 @@ where pull requests should target when merging new features or fixes.
 - Modify or add code inside the appropriate service directory.
 - Use the Makefile targets to build and run services locally.
 - Continuous integration is handled via GitHub Actions in `.github/workflows/ci.yml`.
+
+### Ingest Service
+
+The `ingest` service exposes a `POST /alerts` endpoint which classifies
+incoming alerts using a simple LLM-based stub and publishes the result to the
+internal message bus.
 
 
 ## License
