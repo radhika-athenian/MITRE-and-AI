@@ -1,11 +1,13 @@
 version: '3.8'
-# services:
-#   ingest:
-#     build: ./services/ingest
-#     volumes:
-#       - ./services/ingest:/app
-#   graph:
-#     build: ./services/graph
-#     volumes:
-#       - ./services/graph:/app
+services:
+  ingest:
+    build: ./services/ingest
+    volumes:
+      - ./services/ingest:/app
+      - ./libs:/libs
+    environment:
+      - INGEST_PORT=8000
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-dummy}
+    ports:
+      - "8000:8000"
 
