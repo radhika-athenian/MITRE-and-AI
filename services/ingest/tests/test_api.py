@@ -1,5 +1,6 @@
 from fastapi.testclient import TestClient
-from app.main import Alert, app, classify_alert
+from services.ingest.app.main import Alert, app, classify_alert
+
 
 client = TestClient(app)
 
