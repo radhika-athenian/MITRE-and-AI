@@ -1,20 +1,19 @@
 """Ingest service for receiving alerts and classifying them."""
 
 from __future__ import annotations
-
 import logging
 import os
 import time
-from typing import Optional
-
 from fastapi import FastAPI
 from pydantic import BaseModel
+
 
 # from agentsdk import publish_event
 def publish_event(topic: str, event: dict) -> None:
     # Stub implementation for publish_event
     # In production, import from agentsdk
     print(f"Published to {topic}: {event}")
+
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
