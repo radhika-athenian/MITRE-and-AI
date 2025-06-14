@@ -1,0 +1,13 @@
+services:
+  ingest:
+    build: 
+      context: .
+      dockerfile: services/ingest/Dockerfile
+    volumes:
+      - ./services/ingest:/app
+      - ./libs:/libs
+    environment:
+      - INGEST_PORT=8000
+      - OPENAI_API_KEY= "${OPENAI_API_KEY}"
+    ports:
+      - "8000:8000"
