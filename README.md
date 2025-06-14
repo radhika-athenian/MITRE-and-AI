@@ -21,9 +21,11 @@ This project provides a scaffolding for multiple services that work together via
    source venv/bin/activate
    pip install -r requirements.txt
    pip install -r services/ingest/requirements.txt  # service-specific
+   pip install -r services/graph/requirements.txt   # service-specific
    ```
-4. The `graph` service is only a placeholder. Add your own Dockerfile in
-   `services/graph` or comment out the service in `docker-compose.yml`.
+4. The `graph` service listens to classified alerts via Redis and maintains
+   a directed NetworkX graph. It runs alongside the `ingest` service using
+   the provided Dockerfile in `services/graph`.
 5. Build the service images with `make build`.
 6. Start the stack with `make up` and stop it with `make down`.
 7. Run tests with `make test` and lint with `make lint`.
