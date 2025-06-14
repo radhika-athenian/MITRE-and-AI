@@ -5,7 +5,7 @@ This project provides a scaffolding for multiple services that work together via
 ## Project Overview
 
  - **services/** – Individual microservices such as `ingest`.
-   A `graph` directory is included only as a placeholder.
+   Additional agents will be added over time.
 - **libs/** – Shared libraries used across services.
 - **docker-compose.yml** – Orchestrates services during development.
 - **Makefile** – Convenience commands for building and running containers.
@@ -22,11 +22,9 @@ This project provides a scaffolding for multiple services that work together via
    pip install -r requirements.txt
    pip install -r services/ingest/requirements.txt  # service-specific
    ```
-4. The `graph` service is only a placeholder. Add your own Dockerfile in
-   `services/graph` or comment out the service in `docker-compose.yml`.
-5. Build the service images with `make build`.
-6. Start the stack with `make up` and stop it with `make down`.
-7. Run tests with `make test` and lint with `make lint`.
+4. Build the service images with `make build`.
+5. Start the stack with `make up` and stop it with `make down`.
+6. Run tests with `make test` and lint with `make lint`.
 
 ## Branching Strategy
 
@@ -39,6 +37,24 @@ where pull requests should target when merging new features or fixes.
 - Modify or add code inside the appropriate service directory.
 - Use the Makefile targets to build and run services locally.
 - Continuous integration is handled via GitHub Actions in `.github/workflows/ci.yml`.
+
+### Ingest Service
+
+The `ingest` service exposes a `POST /alerts` endpoint which classifies
+incoming alerts using a simple LLM-based stub and publishes the result to the
+internal message bus.
+
+### Graph Service
+
+The `graph` service maintains an in-memory directed graph using NetworkX. It
+provides a `/graph/update` endpoint to add edges and a `/graph` endpoint to
+retrieve the graph in node-link JSON format.
+
+### Analysis Service
+
+The `analysis` service exposes a `/analysis/path` endpoint that returns up to
+`k` shortest paths between two nodes using Dijkstra-based search. For testing
+purposes it also provides `/analysis/edge` to add edges to its internal graph.
 
 
 ## License
