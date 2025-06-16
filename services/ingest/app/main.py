@@ -7,7 +7,11 @@ import time
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-from agentsdk import publish_event
+# from agentsdk import publish_event
+def publish_event(topic: str, data: dict):
+    """Stub for publish_event. Replace with actual implementation."""
+    # In production, import from agentsdk and remove this stub.
+    print(f"Publishing to {topic}: {data}")
 
 
 logger = logging.getLogger(__name__)
