@@ -3,4 +3,6 @@ import sys
 import os
 
 # Insert the project root into sys.path so 'services' is importable
-sys.path.insert(0, os.path.abspath(os.curdir))
+PROJECT_ROOT = os.path.abspath(os.curdir)
+sys.path.insert(0, PROJECT_ROOT)
+sys.path.insert(0, os.path.join(PROJECT_ROOT, "libs"))
