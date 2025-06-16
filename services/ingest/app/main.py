@@ -10,11 +10,7 @@ from typing import Optional
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-# from agentsdk import publish_event
-def publish_event(topic: str, event: dict) -> None:
-    # Stub implementation for publish_event
-    # In production, import from agentsdk
-    print(f"Published to {topic}: {event}")
+from agentsdk import publish_event
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -58,10 +54,10 @@ def classify_alert(alert: Alert) -> ClassifiedAlert:
 
 
 def publish_alert(alert: ClassifiedAlert) -> None:
-    """Publish the classified alert to a message bus (stub)."""
+    """Publish the classified alert to the message bus."""
+
     try:
         publish_event("alerts", alert.model_dump())
-
     except Exception as exc:  # pragma: no cover - logging only
         logger.error("Failed to publish alert: %s", exc)
 

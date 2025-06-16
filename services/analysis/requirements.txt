@@ -1,7 +1,5 @@
 fastapi
-httpx
 uvicorn
-openai
 networkx
 redis
 scikit-learn
