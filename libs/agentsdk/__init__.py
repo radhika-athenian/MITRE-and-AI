@@ -7,39 +7,63 @@ import logging
 import os
 from typing import Generator
 
-import redis
+from kafka import KafkaConsumer, KafkaProducer
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
-_redis_client: redis.Redis | None = None
+_producer: KafkaProducer | None = None
 
 
-def get_redis() -> redis.Redis:
-    """Return a cached Redis client using ``REDIS_URL`` env var."""
+def get_producer() -> KafkaProducer:
+    """Return a cached Kafka producer using ``KAFKA_BOOTSTRAP`` env var."""
 
-    global _redis_client
-    if _redis_client is None:
-        url = os.getenv("REDIS_URL", "redis://localhost:6379/0")
-        _redis_client = redis.Redis.from_url(url)
-    return _redis_client
+    global _producer
+    if _producer is None:
+        if os.getenv("NO_KAFKA") == "1":
+            class DummyProducer:
+                def send(self, *_, **__):
+                    return None
+
+                def flush(self):
+                    return None
+
+            _producer = DummyProducer()  # type: ignore[assignment]
+        else:
+            bootstrap = os.getenv("KAFKA_BOOTSTRAP", "localhost:9092")
+            _producer = KafkaProducer(
+                bootstrap_servers=bootstrap,
+                value_serializer=lambda v: json.dumps(v).encode("utf-8"),
+            )
+    return _producer
 
 
 def publish_event(topic: str, event: dict) -> None:
-    """Publish an event to the Redis pub/sub bus."""
+    """Publish an event to the Kafka bus."""
 
-    client = get_redis()
-    client.publish(topic, json.dumps(event))
-    logger.info("Publish to %s: %s", topic, event)
+    producer = get_producer()
+    try:
+        producer.send(topic, event)
+        producer.flush()
+        logger.info("Publish to %s: %s", topic, event)
+    except Exception as exc:  # pragma: no cover - network errors
+        logger.error("Kafka publish failed: %s", exc)
 
 
 def subscribe(topic: str) -> Generator[dict, None, None]:
     """Subscribe to events on the given topic and yield them as dicts."""
 
-    client = get_redis()
-    pubsub = client.pubsub()
-    pubsub.subscribe(topic)
-    for message in pubsub.listen():
-        if message.get("type") == "message":
-            data = json.loads(message["data"])
-            yield data
+    if os.getenv("NO_KAFKA") == "1":
+        return
+
+    bootstrap = os.getenv("KAFKA_BOOTSTRAP", "localhost:9092")
+    consumer = KafkaConsumer(
+        topic,
+        bootstrap_servers=bootstrap,
+        value_deserializer=lambda m: json.loads(m.decode("utf-8")),
+        auto_offset_reset="earliest",
+        enable_auto_commit=True,
+        group_id=os.getenv("KAFKA_GROUP", "agentsdk"),
+    )
+    for msg in consumer:
+        yield msg.value

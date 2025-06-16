@@ -2,7 +2,7 @@ fastapi
 httpx
 uvicorn
 openai
+kafka-python
 networkx
-redis
 scikit-learn
 numpy

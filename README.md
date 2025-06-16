@@ -24,9 +24,11 @@ This project provides a scaffolding for multiple services that work together via
    pip install -r services/graph/requirements.txt   # service-specific
    pip install -r services/analysis/requirements.txt  # service-specific
    ```
-4. The `graph` service listens to classified alerts via Redis and maintains
-   a directed NetworkX graph. It runs alongside the `ingest` service using
-   the provided Dockerfile in `services/graph`.
+4. The `graph` service listens to classified alerts from Kafka and maintains
+   a directed NetworkX graph with a SQLite fallback. It runs alongside the
+   `ingest` service using the provided Dockerfile in `services/graph`. Set the
+   `ATTACK_JSON` environment variable to point to the local ATT&CK JSON file if
+   available.
 5. The `analysis` service computes the top attack paths from the graph and
    re-ranks them using a simple Random Forest model.
 6. Build the service images with `make build`.
@@ -55,4 +57,3 @@ internal message bus.
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-

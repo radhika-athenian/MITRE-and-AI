@@ -1,8 +1,18 @@
 services:
-  redis:
-    image: redis:7
+  kafka:
+    image: bitnami/kafka:latest
+    environment:
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092
+      - ALLOW_PLAINTEXT_LISTENER=yes
     ports:
-      - "6379:6379"
+      - "9092:9092"
+  zookeeper:
+    image: bitnami/zookeeper:latest
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    ports:
+      - "2181:2181"
   ingest:
     build: 
       context: .
@@ -13,7 +23,7 @@ services:
     environment:
       - INGEST_PORT=8000
       - OPENAI_API_KEY= "${OPENAI_API_KEY}"
-      - REDIS_URL=redis://redis:6379/0
+      - KAFKA_BOOTSTRAP=kafka:9092
     ports:
       - "8000:8000"
   graph:
@@ -25,7 +35,7 @@ services:
       - ./libs:/libs
     environment:
       - GRAPH_PORT=8001
-      - REDIS_URL=redis://redis:6379/0
+      - KAFKA_BOOTSTRAP=kafka:9092
     ports:
       - "8001:8001"
   analysis:
@@ -37,6 +47,6 @@ services:
       - ./libs:/libs
     environment:
       - ANALYSIS_PORT=8002
-      - REDIS_URL=redis://redis:6379/0
+      - KAFKA_BOOTSTRAP=kafka:9092
     ports:
       - "8002:8002"

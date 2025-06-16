@@ -67,8 +67,9 @@ def _listen() -> None:
 
 @app.on_event("startup")
 def startup_event() -> None:
-    thread = threading.Thread(target=_listen, daemon=True)
-    thread.start()
+    if os.getenv("NO_KAFKA") != "1":
+        thread = threading.Thread(target=_listen, daemon=True)
+        thread.start()
 
 
 @app.get("/top-paths")

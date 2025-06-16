@@ -1,8 +1,10 @@
 from fastapi.testclient import TestClient
-from services.graph.app.main import app, graph, update_graph
+from services.graph.app.main import app, graph, update_graph, init_db, load_graph
 
 
 def test_update_graph():
+    init_db()
+    load_graph()
     graph.clear()
     alert = {"technique_id": "T1000", "asset_id": "asset-1"}
     update_graph(alert)
@@ -12,6 +14,8 @@ def test_update_graph():
 
 
 def test_get_nodes_endpoint():
+    init_db()
+    load_graph()
     graph.clear()
     alert = {"technique_id": "T1001", "asset_id": "asset-2"}
     update_graph(alert)

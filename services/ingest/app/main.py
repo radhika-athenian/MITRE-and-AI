@@ -1,18 +1,16 @@
 """Ingest service for receiving alerts and classifying them."""
 
 from __future__ import annotations
+
 import logging
 import os
 import time
+from typing import Optional
+
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-# from agentsdk import publish_event
-def publish_event(topic: str, data: dict):
-    """Stub for publish_event. Replace with actual implementation."""
-    # In production, import from agentsdk and remove this stub.
-    print(f"Publishing to {topic}: {data}")
-
+from agentsdk import publish_event
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
