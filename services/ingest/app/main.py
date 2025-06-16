@@ -7,7 +7,6 @@ import time
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-
 # from agentsdk import publish_event
 def publish_event(topic: str, event: dict) -> None:
     # Stub implementation for publish_event
