@@ -8,8 +8,8 @@ from typing import Dict
 import networkx as nx
 from fastapi import FastAPI
 
-from agentsdk import subscribe
-from attackkit import AttackParser
+from libs.agentsdk import subscribe
+from libs.attackkit import AttackParser
 
 app = FastAPI()
 graph = nx.DiGraph()

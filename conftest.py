@@ -1,10 +1,10 @@
+# Insert the project root into sys.path so 'services' is importable
 # conftest.py
 import sys
 import os
 
-# Insert the project root into sys.path so 'services' is importable
-PROJECT_ROOT = os.path.abspath(os.curdir)
-sys.path.insert(0, PROJECT_ROOT)
-sys.path.insert(0, os.path.join(PROJECT_ROOT, "libs"))
-os.environ.setdefault("NO_KAFKA", "1")
-os.environ.setdefault("GRAPH_DB", ":memory:")
+# Ensure the project root (current directory) is on sys.path
+ROOT = os.path.abspath(os.path.dirname(__file__))
+if ROOT not in sys.path:
+    sys.path.insert(0, ROOT)
+    

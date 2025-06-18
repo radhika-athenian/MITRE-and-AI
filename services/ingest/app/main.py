@@ -10,7 +10,7 @@ from typing import Optional
 from fastapi import FastAPI
 from pydantic import BaseModel
 
-from agentsdk import publish_event
+from libs.agentsdk import publish_event
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)

@@ -9,7 +9,7 @@ import numpy as np
 from fastapi import FastAPI
 from sklearn.ensemble import RandomForestClassifier
 
-from agentsdk import subscribe
+from libs.agentsdk import subscribe
 
 app = FastAPI()
 graph = nx.DiGraph()
