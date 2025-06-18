@@ -7,11 +7,14 @@ from typing import Dict
 
 import networkx as nx
 from fastapi import FastAPI
+from contextlib import asynccontextmanager
 
 from libs.agentsdk import subscribe
 from libs.attackkit import AttackParser
 
-app = FastAPI()
+# ----------------------------------------------------------------------------
+# Graph and DB setup
+# ----------------------------------------------------------------------------
 graph = nx.DiGraph()
 db_path = os.getenv("GRAPH_DB", "graph.db")
 conn = sqlite3.connect(db_path, check_same_thread=False)
@@ -22,6 +25,7 @@ def init_db() -> None:
         "CREATE TABLE IF NOT EXISTS edges (source TEXT, target TEXT, weight INTEGER, PRIMARY KEY (source, target))"
     )
     conn.commit()
+
 
 
 def load_graph() -> None:
@@ -35,6 +39,7 @@ def load_graph() -> None:
         parser = AttackParser(path)
         for tid in parser.get_techniques():
             graph.add_node(f"tech:{tid}", type="technique")
+
 
 
 def update_graph(alert: Dict) -> None:
@@ -57,18 +62,31 @@ def update_graph(alert: Dict) -> None:
     conn.commit()
 
 
+
 def _listen() -> None:
     for alert in subscribe("alerts"):
         update_graph(alert)
 
 
-@app.on_event("startup")
-def startup_event() -> None:
+# ----------------------------------------------------------------------------
+# Lifespan (startup/shutdown) handler
+# ----------------------------------------------------------------------------
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup logic
     init_db()
     load_graph()
     if os.getenv("NO_KAFKA") != "1":
         thread = threading.Thread(target=_listen, daemon=True)
         thread.start()
+
+    yield  # Application runs here
+
+
+# ----------------------------------------------------------------------------
+# FastAPI application
+# ----------------------------------------------------------------------------
+app = FastAPI(lifespan=lifespan)
 
 
 @app.get("/nodes")
